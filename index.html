@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VM Portal – Brand Exposure</title>
+  <meta name="description" content="TradiFOOT Visual Marketing — in-store shelf data entry portal." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'ui-sans-serif'] },
+          colors: {
+            ink: { DEFAULT: '#0f172a', 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 400: '#94a3b8', 600: '#475569', 800: '#1e293b', 900: '#0f172a' },
+            azure: { DEFAULT: '#2563eb', 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8' }
+          },
+          boxShadow: {
+            card: '0 4px 6px -1px rgba(0,0,0,.06), 0 20px 50px -10px rgba(0,0,0,.12)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+
+    /* Remove default select arrow so we use our SVG */
+    select {
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.9rem center;
+      background-size: 1rem;
+      cursor: pointer;
+    }
+
+    /* Floating-label trick — field base */
+    .field-wrap { position: relative; }
+
+    /* Focus ring utility */
+    .ring-input:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+    }
+
+    /* Step fade-up animation */
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(14px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .fu  { animation: fadeUp .4s ease both; }
+    .d0  { animation-delay:.04s }
+    .d1  { animation-delay:.10s }
+    .d2  { animation-delay:.16s }
+    .d3  { animation-delay:.22s }
+    .d4  { animation-delay:.28s }
+    .d5  { animation-delay:.34s }
+    .d6  { animation-delay:.40s }
+  </style>
+</head>
+
+<body class="min-h-screen bg-ink-50 flex flex-col items-center justify-center px-4 py-12">
+
+  <!-- ══ Background decoration ═══════════════════════════════════ -->
+  <div aria-hidden="true" class="pointer-events-none fixed inset-0 overflow-hidden -z-10">
+    <div class="absolute -top-32 -right-32 w-96 h-96 bg-azure-500/10 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-32 -left-32 w-96 h-96 bg-blue-300/10 rounded-full blur-3xl"></div>
+  </div>
+
+  <!-- ══ Card ════════════════════════════════════════════════════ -->
+  <div class="w-full max-w-md fu d0">
+
+    <!-- Header -->
+    <div class="text-center mb-8 fu d0">
+      <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-azure-600 bg-azure-600/10 px-3 py-1 rounded-full mb-4">
+        <span class="w-1.5 h-1.5 rounded-full bg-azure-500 animate-pulse"></span>
+        VM Portal
+      </span>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-ink-900 tracking-tight">Shelf Data Entry</h1>
+      <p class="mt-1.5 text-sm text-ink-400">Log in-store brand exposure after each visit.</p>
+    </div>
+
+    <!-- Form card -->
+    <div class="bg-white rounded-3xl shadow-card border border-ink-200/60 overflow-hidden">
+
+      <!-- Accent bar -->
+      <div class="h-1 w-full bg-gradient-to-r from-azure-700 via-azure-500 to-blue-400"></div>
+
+      <form
+        id="vm-form"
+        action="YOUR_WEB_APP_URL_HERE"
+        method="POST"
+        class="p-6 sm:p-8 space-y-5"
+      >
+
+        <!-- ① Store Name ──────────────────────────────────────── -->
+        <div class="fu d1">
+          <label for="store_name" class="block text-xs font-semibold uppercase tracking-wide text-ink-600 mb-1.5">
+            Store Name <span class="text-red-400 normal-case tracking-normal font-normal">required</span>
+          </label>
+          <div class="field-wrap">
+            <select
+              id="store_name"
+              name="store_name"
+              required
+              class="ring-input w-full bg-ink-50 border border-ink-200 text-ink-900 rounded-xl px-4 py-3 pr-9 text-sm font-medium transition-all"
+            >
+              <option value="" disabled selected>Select a store…</option>
+              <optgroup label="─── CLARKS ───">
+                <option value="CLARKS BAB EZZOUAR">CLARKS BAB EZZOUAR</option>
+                <option value="CLARKS GARDEN CITY">CLARKS GARDEN CITY</option>
+              </optgroup>
+              <optgroup label="─── E-COMMERCE ───">
+                <option value="E-COMMERCE FOOTLAND">E-COMMERCE FOOTLAND</option>
+                <option value="E-COMMERCE SKECHERS">E-COMMERCE SKECHERS</option>
+                <option value="E-COMMERCE _ XTEP">E-COMMERCE _ XTEP</option>
+              </optgroup>
+              <optgroup label="─── FOOTLAND ───">
+                <option value="FOOTLAND AMARA">FOOTLAND AMARA</option>
+                <option value="FOOTLAND ARDIS">FOOTLAND ARDIS</option>
+                <option value="FOOTLAND BATNA">FOOTLAND BATNA</option>
+                <option value="FOOTLAND BEJAIA">FOOTLAND BEJAIA</option>
+                <option value="FOOTLAND BIRKHADEM">FOOTLAND BIRKHADEM</option>
+                <option value="FOOTLAND DJELFA">FOOTLAND DJELFA</option>
+                <option value="FOOTLAND DRARIA">FOOTLAND DRARIA</option>
+                <option value="FOOTLAND GARDEN CITY">FOOTLAND GARDEN CITY</option>
+                <option value="FOOTLAND LARBI TEBESSI">FOOTLAND LARBI TEBESSI</option>
+                <option value="FOOTLAND OUARGLA">FOOTLAND OUARGLA</option>
+                <option value="FOOTLAND ROUIBA">FOOTLAND ROUIBA</option>
+                <option value="FOOTLAND SETIF">FOOTLAND SETIF</option>
+                <option value="FOOTLAND SIEGE">FOOTLAND SIEGE</option>
+                <option value="FOOTLAND TLEMCEN">FOOTLAND TLEMCEN</option>
+              </optgroup>
+              <optgroup label="─── SKECHERS ───">
+                <option value="SKECHERS ANNABA">SKECHERS ANNABA</option>
+                <option value="SKECHERS BAB EZZOUAR">SKECHERS BAB EZZOUAR</option>
+                <option value="SKECHERS BEJAIA">SKECHERS BEJAIA</option>
+                <option value="SKECHERS BEN MHIDI">SKECHERS BEN MHIDI</option>
+                <option value="SKECHERS BIRKHADEM">SKECHERS BIRKHADEM</option>
+                <option value="SKECHERS BLIDA">SKECHERS BLIDA</option>
+                <option value="SKECHERS BOUMERDES">SKECHERS BOUMERDES</option>
+                <option value="SKECHERS CONSTANTINE">SKECHERS CONSTANTINE</option>
+                <option value="SKECHERS DRARIA">SKECHERS DRARIA</option>
+                <option value="SKECHERS ESSENIA">SKECHERS ESSENIA</option>
+                <option value="SKECHERS GARDEN CITY">SKECHERS GARDEN CITY</option>
+                <option value="SKECHERS RITAJ">SKECHERS RITAJ</option>
+                <option value="SKECHERS ROUIBA">SKECHERS ROUIBA</option>
+                <option value="SKECHERS SETIF">SKECHERS SETIF</option>
+                <option value="SKECHERS SIDI YAHIA">SKECHERS SIDI YAHIA</option>
+                <option value="SKECHERS SIDIBELABBES">SKECHERS SIDIBELABBES</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+
+        <!-- ② Brand Exposed ──────────────────────────────────── -->
+        <div class="fu d2">
+          <label for="brand" class="block text-xs font-semibold uppercase tracking-wide text-ink-600 mb-1.5">
+            Brand Exposed <span class="text-red-400 normal-case tracking-normal font-normal">required</span>
+          </label>
+          <div class="field-wrap">
+            <select
+              id="brand"
+              name="brand"
+              required
+              class="ring-input w-full bg-ink-50 border border-ink-200 text-ink-900 rounded-xl px-4 py-3 pr-9 text-sm font-medium transition-all"
+            >
+              <option value="" disabled selected>Select a brand…</option>
+              <option value="361">361</option>
+              <option value="AMBITIOUS">AMBITIOUS</option>
+              <option value="AVALANCHE">AVALANCHE</option>
+              <option value="BLOOMPY">BLOOMPY</option>
+              <option value="BRIKENSTOCK">BRIKENSTOCK</option>
+              <option value="CANGURO">CANGURO</option>
+              <option value="CATERPILLAR">CATERPILLAR</option>
+              <option value="CHAMPION">CHAMPION</option>
+              <option value="CLARKS">CLARKS</option>
+              <option value="COLE HAAN">COLE HAAN</option>
+              <option value="COLMAR">COLMAR</option>
+              <option value="CONVERSE">CONVERSE</option>
+              <option value="DEF">DEF</option>
+              <option value="ECCO">ECCO</option>
+              <option value="FLYFLOT">FLYFLOT</option>
+              <option value="FREEMODE">FREEMODE</option>
+              <option value="GEOX">GEOX</option>
+              <option value="HAVAIANAS">HAVAIANAS</option>
+              <option value="HI-TECH">HI-TECH</option>
+              <option value="HUSH PUPPIES">HUSH PUPPIES</option>
+              <option value="JEEP">JEEP</option>
+              <option value="K-SWISS">K-SWISS</option>
+              <option value="LOTTO">LOTTO</option>
+              <option value="MERRELL">MERRELL</option>
+              <option value="PALLADIUM">PALLADIUM</option>
+              <option value="PEAK">PEAK</option>
+              <option value="PROLINE">PROLINE</option>
+              <option value="PUCA">PUCA</option>
+              <option value="PUMA">PUMA</option>
+              <option value="RAC">RAC</option>
+              <option value="REDSKINS">REDSKINS</option>
+              <option value="SACHET FOOTLAND ALGERIE">SACHET FOOTLAND ALGERIE</option>
+              <option value="SACHET SKECHERS ALGERIE">SACHET SKECHERS ALGERIE</option>
+              <option value="SACHET SKECHERS USA">SACHET SKECHERS USA</option>
+              <option value="SJ">SJ</option>
+              <option value="SKECHERS">SKECHERS</option>
+              <option value="WRANGLER">WRANGLER</option>
+              <option value="X-TEP">X-TEP</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- ③ Shelf Nature ────────────────────────────────────── -->
+        <div class="fu d3">
+          <label for="shelft_nature" class="block text-xs font-semibold uppercase tracking-wide text-ink-600 mb-1.5">
+            Shelf Nature <span class="text-red-400 normal-case tracking-normal font-normal">required</span>
+          </label>
+          <div class="field-wrap">
+            <select
+              id="shelft_nature"
+              name="shelft_nature"
+              required
+              class="ring-input w-full bg-ink-50 border border-ink-200 text-ink-900 rounded-xl px-4 py-3 pr-9 text-sm font-medium transition-all"
+            >
+              <option value="" disabled selected>Select nature…</option>
+              <option value="Casual Homme">Casual Homme</option>
+              <option value="Casual Femme">Casual Femme</option>
+              <option value="Performance Homme">Performance Homme</option>
+              <option value="Performance Femme">Performance Femme</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- ④ Shelf Position ─────────────────────────────────── -->
+        <div class="fu d4">
+          <label for="shelft_position" class="block text-xs font-semibold uppercase tracking-wide text-ink-600 mb-1.5">
+            Shelf Position <span class="text-red-400 normal-case tracking-normal font-normal">required</span>
+          </label>
+          <div class="field-wrap">
+            <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7"/>
+              </svg>
+            </span>
+            <input
+              type="text"
+              id="shelft_position"
+              name="shelft_position"
+              required
+              placeholder="e.g. Eye-level, Top shelf, Row 3…"
+              class="ring-input w-full bg-ink-50 border border-ink-200 text-ink-900 rounded-xl pl-10 pr-4 py-3 text-sm font-medium transition-all placeholder:text-ink-400"
+            />
+          </div>
+        </div>
+
+        <!-- ⑤ Notes / Remarks ───────────────────────────────── -->
+        <div class="fu d5">
+          <label for="notes" class="block text-xs font-semibold uppercase tracking-wide text-ink-600 mb-1.5">
+            Notes &amp; Remarks <span class="text-ink-400 normal-case tracking-normal font-normal">(optional)</span>
+          </label>
+          <textarea
+            id="notes"
+            name="notes"
+            rows="3"
+            placeholder="Any issues with lighting, stock, competitor activity…"
+            class="ring-input w-full bg-ink-50 border border-ink-200 text-ink-900 rounded-xl px-4 py-3 text-sm font-medium resize-none transition-all placeholder:text-ink-400"
+          ></textarea>
+        </div>
+
+        <!-- Divider -->
+        <div class="border-t border-ink-100 pt-1"></div>
+
+        <!-- Submit ───────────────────────────────────────────── -->
+        <div class="fu d6 flex flex-col sm:flex-row gap-2.5">
+          <button
+            type="submit"
+            id="submit-btn"
+            class="flex-1 inline-flex items-center justify-center gap-2 bg-azure-600 hover:bg-azure-700 active:scale-95 text-white font-bold text-sm rounded-xl py-3.5 px-6 shadow-md shadow-azure-500/25 transition-all duration-200"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 8l-3-3m3 3l3-3"/>
+            </svg>
+            <span id="btn-label">Submit Data</span>
+          </button>
+          <button
+            type="reset"
+            class="sm:w-auto inline-flex items-center justify-center gap-1 text-ink-400 hover:text-ink-700 text-xs font-semibold py-3.5 px-4 rounded-xl transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582M20 20v-5h-.581M4.582 9A8 8 0 1120 15"/>
+            </svg>
+            Clear
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- ── Consultation button ──────────────────────────────── -->
+    <button
+      id="consult-btn"
+      class="mt-4 w-full inline-flex items-center justify-center gap-2 bg-white border border-ink-200 hover:border-azure-400 hover:text-azure-600 text-ink-600 font-semibold text-sm rounded-2xl py-3.5 px-6 shadow-sm transition-all duration-200 active:scale-95"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+      </svg>
+      View Current Allocations
+    </button>
+
+    <!-- ── Success banner ────────────────────────────────────── -->
+    <div
+      id="success-banner"
+      class="hidden mt-5 flex items-start gap-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl px-5 py-4 shadow-sm fu"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mt-0.5 text-emerald-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      <div>
+        <p class="font-semibold text-sm">Report submitted!</p>
+        <p class="text-xs text-emerald-600 mt-0.5">Your shelf data has been logged successfully.</p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <p class="text-center text-xs text-ink-400 mt-6">
+      TradiFOOT &middot; Visual Marketing &middot; <span id="yr"></span>
+    </p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       CONSULTATION PANEL (full-screen overlay)
+  ═════════════════════════════════════════════════════════ -->
+  <div
+    id="consult-panel"
+    class="hidden fixed inset-0 z-50 bg-ink-50 flex flex-col"
+    style="animation: slideUp .3s ease both;"
+  >
+    <!-- Panel header -->
+    <div class="bg-white border-b border-ink-200 px-5 py-4 flex items-center justify-between shrink-0 shadow-sm">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-xl bg-azure-600/10 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-azure-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+          </svg>
+        </div>
+        <div>
+          <h2 class="text-sm font-bold text-ink-900 leading-tight">Current Allocations</h2>
+          <p class="text-xs text-ink-400" id="consult-subtitle">Loading data…</p>
+        </div>
+      </div>
+      <button
+        id="consult-close"
+        class="inline-flex items-center gap-1.5 text-xs font-semibold text-ink-400 hover:text-ink-800 bg-ink-100 hover:bg-ink-200 px-3 py-2 rounded-xl transition-all"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+        Close
+      </button>
+    </div>
+
+    <!-- Refresh button strip -->
+    <div class="bg-white border-b border-ink-100 px-5 py-2 flex justify-end shrink-0">
+      <button id="consult-refresh" class="inline-flex items-center gap-1.5 text-xs font-medium text-azure-600 hover:text-azure-700 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582M20 20v-5h-.581M4.582 9A8 8 0 1120 15"/>
+        </svg>
+        Refresh
+      </button>
+    </div>
+
+    <!-- Panel body -->
+    <div id="consult-body" class="flex-1 overflow-y-auto px-4 py-5 space-y-3"></div>
+  </div>
+
+  <style>
+    @keyframes slideUp {
+      from { opacity:0; transform:translateY(24px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+  </style>
+
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    /* ── Form submit ──────────────────────────────────────────── */
+    const form   = document.getElementById('vm-form');
+    const btn    = document.getElementById('submit-btn');
+    const label  = document.getElementById('btn-label');
+    const banner = document.getElementById('success-banner');
+
+    form.addEventListener('submit', function (e) {
+      if (form.action.includes('YOUR_WEB_APP_URL_HERE')) {
+        e.preventDefault();
+        btn.disabled = true;
+        label.textContent = 'Submitting…';
+        setTimeout(() => {
+          form.reset();
+          btn.disabled = false;
+          label.textContent = 'Submit Data';
+          banner.classList.remove('hidden');
+          banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setTimeout(() => banner.classList.add('hidden'), 5000);
+        }, 800);
+      }
+    });
+
+    /* ── Consultation panel ───────────────────────────────────── */
+    const consultBtn     = document.getElementById('consult-btn');
+    const consultPanel   = document.getElementById('consult-panel');
+    const consultClose   = document.getElementById('consult-close');
+    const consultRefresh = document.getElementById('consult-refresh');
+    const consultBody    = document.getElementById('consult-body');
+    const consultSub     = document.getElementById('consult-subtitle');
+
+    // ── The Google Apps Script URL (same one as the form action) ──
+    // Replace with your real URL. For GET requests the script must
+    // return JSON like: [{store_name, brand, shelft_nature, shelft_position, notes}, ...]
+    const GAS_URL = form.action;
+
+    consultBtn.addEventListener('click', () => openConsultPanel());
+    consultClose.addEventListener('click', () => consultPanel.classList.add('hidden'));
+    consultRefresh.addEventListener('click', () => loadAllocations());
+
+    function openConsultPanel() {
+      consultPanel.classList.remove('hidden');
+      consultPanel.style.animation = 'none';
+      requestAnimationFrame(() => {
+        consultPanel.style.animation = 'slideUp .3s ease both';
+      });
+      loadAllocations();
+    }
+
+    /* ── Fetch + group + render ───────────────────────────────── */
+    async function loadAllocations() {
+      setLoading();
+
+      // Demo mode: if URL is still placeholder, show sample data
+      if (GAS_URL.includes('YOUR_WEB_APP_URL_HERE')) {
+        await delay(900);
+        const demo = [
+          { store_name:'SKECHERS BAB EZZOUAR', shelft_nature:'Casual Homme',       shelft_position:'Eye-level',  brand:'SKECHERS' },
+          { store_name:'SKECHERS BAB EZZOUAR', shelft_nature:'Casual Homme',       shelft_position:'Eye-level',  brand:'PUMA' },
+          { store_name:'SKECHERS BAB EZZOUAR', shelft_nature:'Casual Femme',       shelft_position:'Top shelf',  brand:'CLARKS' },
+          { store_name:'SKECHERS BAB EZZOUAR', shelft_nature:'Performance Homme',  shelft_position:'Bottom',     brand:'SKECHERS' },
+          { store_name:'FOOTLAND ROUIBA',      shelft_nature:'Casual Femme',       shelft_position:'Eye-level',  brand:'HAVAIANAS' },
+          { store_name:'FOOTLAND ROUIBA',      shelft_nature:'Casual Femme',       shelft_position:'Eye-level',  brand:'COLMAR' },
+          { store_name:'FOOTLAND ROUIBA',      shelft_nature:'Performance Femme',  shelft_position:'Top shelf',  brand:'HI-TECH' },
+          { store_name:'CLARKS GARDEN CITY',   shelft_nature:'Casual Homme',       shelft_position:'Middle',     brand:'CLARKS' },
+        ];
+        renderData(demo);
+        return;
+      }
+
+      try {
+        const res  = await fetch(GAS_URL, { method: 'GET' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        renderData(data);
+      } catch (err) {
+        setError(err.message);
+      }
+    }
+
+    /* Group: Store → Shelf Nature → Shelf Position → [Brands] */
+    function groupData(rows) {
+      const g = {};
+      rows.forEach(r => {
+        const store    = (r.store_name      || 'Unknown Store').trim();
+        const nature   = (r.shelft_nature   || 'Unknown Nature').trim();
+        const position = (r.shelft_position || 'Unknown Position').trim();
+        const brand    = (r.brand           || 'Unknown Brand').trim();
+        if (!g[store])                    g[store] = {};
+        if (!g[store][nature])            g[store][nature] = {};
+        if (!g[store][nature][position])  g[store][nature][position] = [];
+        if (!g[store][nature][position].includes(brand))
+          g[store][nature][position].push(brand);
+      });
+      return g;
+    }
+
+    function renderData(rows) {
+      if (!rows || rows.length === 0) { setEmpty(); return; }
+
+      const grouped = groupData(rows);
+      const stores  = Object.keys(grouped).sort();
+      consultSub.textContent = `${stores.length} store${stores.length !== 1 ? 's' : ''} · ${rows.length} record${rows.length !== 1 ? 's' : ''}`;
+
+      consultBody.innerHTML = stores.map((store, si) => {
+        const natures = grouped[store];
+        const naturesHTML = Object.keys(natures).sort().map(nature => {
+          const positions = natures[nature];
+          const posHTML = Object.keys(positions).sort().map(pos => {
+            const brands = positions[pos];
+            const chips  = brands.map(b =>
+              `<span class="inline-block bg-azure-600/10 text-azure-700 text-xs font-semibold px-2.5 py-1 rounded-full">${b}</span>`
+            ).join('');
+            return `
+              <div class="flex items-start gap-3 py-2 border-b border-ink-100 last:border-0">
+                <div class="mt-0.5 shrink-0 w-5 h-5 rounded-full bg-ink-100 flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-ink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  </svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-xs font-semibold text-ink-700 mb-1.5">${pos}</p>
+                  <div class="flex flex-wrap gap-1.5">${chips}</div>
+                </div>
+              </div>`;
+          }).join('');
+          return `
+            <div class="mb-3">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xs font-bold uppercase tracking-widest text-ink-400">${nature}</span>
+                <div class="flex-1 h-px bg-ink-100"></div>
+              </div>
+              <div class="bg-ink-50 rounded-xl px-3">${posHTML}</div>
+            </div>`;
+        }).join('');
+
+        const storeId = 'store-' + si;
+        return `
+          <div class="bg-white rounded-2xl border border-ink-200 overflow-hidden shadow-sm">
+            <button
+              onclick="toggleStore('${storeId}')"
+              class="w-full flex items-center justify-between px-4 py-3.5 text-left hover:bg-ink-50 transition-colors"
+            >
+              <div class="flex items-center gap-2.5">
+                <div class="w-7 h-7 rounded-lg bg-azure-600 flex items-center justify-center shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                  </svg>
+                </div>
+                <span class="text-sm font-bold text-ink-900">${store}</span>
+              </div>
+              <svg id="chevron-${storeId}" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-ink-400 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+            <div id="${storeId}" class="hidden px-4 pb-4 pt-1">${naturesHTML}</div>
+          </div>`;
+      }).join('');
+    }
+
+    function toggleStore(id) {
+      const el  = document.getElementById(id);
+      const chv = document.getElementById('chevron-' + id);
+      el.classList.toggle('hidden');
+      chv.style.transform = el.classList.contains('hidden') ? '' : 'rotate(180deg)';
+    }
+
+    /* ── UI states ────────────────────────────────────────────── */
+    function setLoading() {
+      consultSub.textContent = 'Loading data…';
+      consultBody.innerHTML = `
+        <div class="flex flex-col items-center justify-center py-20 text-ink-400">
+          <svg class="w-8 h-8 animate-spin text-azure-500 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+          </svg>
+          <p class="text-sm font-medium">Fetching allocations…</p>
+        </div>`;
+    }
+
+    function setError(msg) {
+      consultSub.textContent = 'Error loading data';
+      consultBody.innerHTML = `
+        <div class="flex flex-col items-center justify-center py-20 text-red-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <p class="text-sm font-semibold">Could not load data</p>
+          <p class="text-xs text-ink-400 mt-1">${msg}</p>
+          <button onclick="loadAllocations()" class="mt-4 text-xs text-azure-600 font-semibold underline">Try again</button>
+        </div>`;
+    }
+
+    function setEmpty() {
+      consultSub.textContent = 'No records found';
+      consultBody.innerHTML = `
+        <div class="flex flex-col items-center justify-center py-20 text-ink-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
+          </svg>
+          <p class="text-sm font-medium">No allocations yet</p>
+        </div>`;
+    }
+
+    const delay = ms => new Promise(r => setTimeout(r, ms));
+  </script>
+
+</body>
+</html>
